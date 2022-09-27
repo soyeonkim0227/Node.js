@@ -26,7 +26,7 @@ const login = async(req, res) => {
 
     try {
         await User.findOne({
-            where : { email : email}
+            where : { email : email }
         });
 
         res.status(200).json({

@@ -42,7 +42,7 @@ const readOne = async(req, res) => {
 const readAll = async(req, res) => {
     try {
         const posts = await Post.findAll({
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'ASC']]
         });
 
         res.status(200).json(posts);
