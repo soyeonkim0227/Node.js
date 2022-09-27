@@ -8,6 +8,7 @@ const createPost = async(req, res) => {
             title,
             content,
         });
+
         res.status(201).json({
             message: "게시글 작성 성공",
         });
@@ -65,6 +66,7 @@ const update = async(req, res) => {
         {
             where : { id : id }
         });
+
         res.status(200).json({
             message: "수정 완료",
         });
@@ -83,6 +85,7 @@ const deleteOne = async(req, res) => {
         await Post.destroy({
             where : { id }
         });
+        
         res.status(200).json({
             message: "삭제 완료"
         });
@@ -97,8 +100,9 @@ const deleteOne = async(req, res) => {
 const deleteAll = async(req, res) => {
     try {
         await Post.destroy(
-            { truncate: true }
+            { truncate: true } // 
         );
+
         res.status(200).json({
             message: "모두 삭제 완료"
         });
