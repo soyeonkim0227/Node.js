@@ -14,7 +14,10 @@ const sequelize = new Sequelize(
 db.Post = require("./post")(sequelize, Sequelize); // sequelize와 post를 접근할 수 있음
 db.User = require("./user")(sequelize, Sequelize);
 
+db.User.hasMany(db.Post, { foreignKey: "writer", targetKey: "id"}); // 외래키 설정
+db.Post.belongsTo(db.User, { foreignKey: "writer"});
+
 db.sequelize = sequelize;
-db.Sequelize = Sequelize; // 이거 왜 두 개?
+db.Sequelize = Sequelize;
 
 module.exports = db;

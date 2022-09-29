@@ -4,9 +4,12 @@ const app = express(); // express 객체를 app에 넣어준다
 const router = require("./routes/index");
 
 const port = 8080;
+require("dotenv").config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); 
+
+app.set("jwt-secret", process.env.SECRET);
 
 app.use("/", router);
 

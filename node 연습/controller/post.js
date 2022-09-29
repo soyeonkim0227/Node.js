@@ -2,11 +2,13 @@ const { Post } = require("../models");
 
 const createPost = async(req, res) => {
     const { title, content } = req.body;
+    const user = req.decoded;
 
     try{
         await Post.create({
             title,
             content,
+            writer: user.id
         });
 
         res.status(201).json({
@@ -58,13 +60,18 @@ const update = async(req, res) => {
     const id = req.params.id;
     const{ title, content } = req.body;
 
+    const user = req.decoded;
+
     try {
         await Post.update({
             title,
             content
         },
         {
-            where : { id : id }
+            where : { 
+                id : id,
+                writer : user.id
+            }
         });
 
         res.status(200).json({
@@ -80,10 +87,14 @@ const update = async(req, res) => {
 
 const deleteOne = async(req, res) => {
     const id = req.params.id;
+    const user = req.decoded;
 
     try {
         await Post.destroy({
-            where : { id }
+            where : { 
+                id,
+                writer: user.id
+            }
         });
         
         res.status(200).json({
@@ -98,10 +109,15 @@ const deleteOne = async(req, res) => {
 };
 
 const deleteAll = async(req, res) => {
+    const user = req.decoded;
+
     try {
-        await Post.destroy(
-            { truncate: true } // 
-        );
+
+        await Post.destroy({
+            where : {
+                writer: user.id
+            }
+        });
 
         res.status(200).json({
             message: "모두 삭제 완료"
