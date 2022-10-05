@@ -2,7 +2,7 @@ const sequelize = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('post', {
-        id : {
+        post_id : {
             type: DataTypes.INTEGER,
             primaryKey: true, // 중복x, 고유해야됨, 대표
             allowNull: false,

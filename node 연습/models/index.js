@@ -13,9 +13,14 @@ const sequelize = new Sequelize(
 
 db.Post = require("./post")(sequelize, Sequelize); // sequelize와 post를 접근할 수 있음
 db.User = require("./user")(sequelize, Sequelize);
+db.Comment = require("./comment")(sequelize, Sequelize);
 
-db.User.hasMany(db.Post, { foreignKey: "writer", targetKey: "id"}); // 외래키 설정
+db.User.hasMany(db.Post, { foreignKey: "writer", targetKey: "user_id"}); // 외래키 설정
 db.Post.belongsTo(db.User, { foreignKey: "writer"});
+
+db.User.hasMany(db.Comment, { foreignKey: "user_id", targetKey: "user_id"});
+db.Comment.belongsTo(db.User, { foreignKey: "user_id" });
+
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
