@@ -4,11 +4,13 @@ const createPost = async(req, res) => {
     const { title, content } = req.body;
     const user = req.decoded;
 
+
+    console.log(user);
     try{
         await Post.create({
             title,
             content,
-            writer: user.id
+            writer: user.user_id
         });
 
         res.status(201).json({
@@ -23,11 +25,11 @@ const createPost = async(req, res) => {
 };
 
 const readOne = async(req, res) => {
-    const id = req.params.id;
+    const postId = req.params.post_id;
 
     try {
         const post = await Post.findOne({
-            where : { id: id }
+            where : { post_id: postId }
         });
 
         if(post == null) throw Error;
@@ -57,7 +59,7 @@ const readAll = async(req, res) => {
 };
 
 const update = async(req, res) => {
-    const id = req.params.id;
+    const postId = req.params.post_id;
     const{ title, content } = req.body;
 
     const user = req.decoded;
@@ -69,8 +71,8 @@ const update = async(req, res) => {
         },
         {
             where : { 
-                id : id,
-                writer : user.id
+                post_id : postId,
+                writer : user.user_id
             }
         });
 
@@ -86,14 +88,14 @@ const update = async(req, res) => {
 };
 
 const deleteOne = async(req, res) => {
-    const id = req.params.id;
+    const postId = req.params.post_id;
     const user = req.decoded;
 
     try {
         await Post.destroy({
             where : { 
-                id,
-                writer: user.id
+                postId,
+                writer: user.user_id
             }
         });
         
@@ -115,7 +117,7 @@ const deleteAll = async(req, res) => {
 
         await Post.destroy({
             where : {
-                writer: user.id
+                writer: user.user_id
             }
         });
 
