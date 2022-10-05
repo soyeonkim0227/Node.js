@@ -18,7 +18,7 @@ const signUp = async(req, res) => {
         res.status(409).json({
             message: "아이디 중복"
         });
-        console(error).err;
+        console.error(err);
     }
 };
 
@@ -33,7 +33,7 @@ const login = async(req, res) => {
 
         if (user.password == password) {
             const accessToken = jwt.sign({
-                id: user.id,
+                user_id: user.user_id,
                 email: user.email,
                 name: user.name
             },
