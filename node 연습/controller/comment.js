@@ -1,4 +1,4 @@
-const { Comment, Post } = require("../models");
+const { Comment } = require("../models");
 
 const createComment = async(req, res) => {
     const { content } = req.body;
@@ -57,12 +57,11 @@ const updateComment = async(req, res) => {
                 message: "본인 댓글만 수정 가능"
             });
         } else {
-            comment.update(content);
+            comment.update({content});
+            res.status(200).json({
+                message: "댓글 수정 성공"
+            });
         }
-
-        res.status(200).json({
-            message: "댓글 수정 성공"
-        });
     } catch(err) {
         res.status(400).json({
             message: "댓글 수정 실패"
@@ -77,7 +76,7 @@ const deleteOneComment = async(req, res) => {
 
     try {
         const comment = await Comment.findOne({
-            where: { comment_id : CommentId }
+            where: { comment_id : CommentId  }
         });
 
         if(comment.user_id !== UserId) {
