@@ -43,13 +43,18 @@ const readAllComment = async(req, res) => {
 
 const updateComment = async(req, res) => {
     const { content } = req.body;
+    const PostId = req.params.post_id;
     const CommentId = req.params.comment_id;
     const UserId = req.decoded.user_id;
 
     console.log(CommentId);
     try {
         const comment = await Comment.findOne({
-            where: { comment_id : CommentId }
+            where: {
+                post_id : PostId,
+                comment_id : CommentId,
+                user_id : UserId
+             }
         });
 
         if(comment.user_id !== UserId) {
