@@ -1,4 +1,4 @@
-const { Post } = require("../models");
+const { Post, Like } = require("../models");
 
 const createPost = async(req, res) => {
     const { title, content } = req.body;
@@ -28,13 +28,18 @@ const readOne = async(req, res) => {
     const postId = req.params.post_id;
 
     try {
+        const like = await Like.count({
+            where: {
+                post_id: postId
+            }
+        });
         const post = await Post.findOne({
             where : { post_id: postId }
         });
 
         if(post == null) throw Error;
 
-        res.status(200).json(post);
+        res.status(200).json({ post, like});
     } catch(err) {
         res.status(404).json({
             message: "해당 게시글 없음",
@@ -94,7 +99,7 @@ const deleteOne = async(req, res) => {
     try {
         await Post.destroy({
             where : { 
-                postId,
+                post_id : postId,
                 writer: user.user_id
             }
         });
