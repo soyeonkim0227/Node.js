@@ -1,4 +1,4 @@
-const { Post, Like } = require("../models");
+const { Post, Like, Image } = require("../models");
 
 const createPost = async(req, res) => {
     const { title, content } = req.body;
@@ -37,9 +37,13 @@ const readOne = async(req, res) => {
             where : { post_id: postId }
         });
 
+        const image = await Image.findAll({
+            where : { post_id : postId }
+        });
+
         if(post == null) throw Error;
 
-        res.status(200).json({ post, like});
+        res.status(200).json({ post, like, image });
     } catch(err) {
         res.status(404).json({
             message: "해당 게시글 없음",
