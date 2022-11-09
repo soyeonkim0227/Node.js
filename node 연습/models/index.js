@@ -35,6 +35,9 @@ db.Comment.belongsTo(db.Post, { foreignKey: "post_id" });
 db.Post.hasMany(db.Like, { foreignKey: "post_id", targetKey: "post_id" });
 db.Like.belongsTo(db.Post, { foreignKey: "post_id" });
 
+db.Post.hasMany(db.Image, { foreignKey: "post_id", targetKey: "post_id" });
+db.Image.belongsTo(db.Post, { foreignKey: "post_id" });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
